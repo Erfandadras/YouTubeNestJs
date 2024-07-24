@@ -26,6 +26,7 @@ jobs:
         key: ${{ secrets.SERVER_SSH_KEY }}
         script: |
           cd /var/www/youtube
+          sudo chown -R ${{ secrets.SERVER_USER }}:${{ secrets.SERVER_USER }} .git
           git pull origin main
           pnpm install
           pnpm run build  # Adjust this to your build command
