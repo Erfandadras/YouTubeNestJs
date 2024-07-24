@@ -1,0 +1,39 @@
+name: Deploy to Ubuntu Server
+
+on:
+  push:
+    branches:
+      - main  # Change this to your main branch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14'  # Specify the Node.js version you need
+
+    - name: Install dependencies
+      run: pnpm install
+
+    - name: Run build
+      run: pnpm run build  # Adjust this to your build command
+
+    - name: Deploy to server via SSH
+      uses: appleboy/ssh-action@v0.1.1
+      with:
+        host: ${{ secrets.SERVER_HOST }}
+        username: ${{ secrets.SERVER_USER }}
+        key: ${{ secrets.SERVER_SSH_KEY }}
+        port: 22
+        script: |
+          cd /var/www/youtube
+          git pull origin main
+          pnpm install
+          pnpm run build  # Adjust this to your build command
+          pm2 restart youtube  # Adjust this to your process manager command
