@@ -21,9 +21,9 @@ jobs:
     - name: Deploy to server via SSH
       uses: appleboy/ssh-action@v0.1.1
       with:
-        host: ${{ secrets.deploy.SERVER_HOST }}
-        username: ${{ secrets.deploy.SERVER_USER }}
-        key: ${{ secrets.deploy.SERVER_SSH_KEY }}
+        host: ${{ secrets.SERVER_HOST }}
+        username: ${{ secrets.SERVER_USER }}
+        key: ${{ secrets.SERVER_SSH_KEY }}
         port: 22
         script: |
           cd /var/www/youtube
